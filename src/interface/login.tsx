@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from "react";
 import { KeyboardAvoidingView, 
   View,
@@ -10,7 +9,7 @@ import { KeyboardAvoidingView,
 } from 'react-native'
 import { Button } from "../components/Button";
 
-export function cadastrarProfessor (){
+export function login (){
 
   const[offset] = useState(new Animated.ValueXY({x: 0, y: 80}));
 
