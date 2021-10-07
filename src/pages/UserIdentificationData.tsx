@@ -17,32 +17,35 @@ import fonts from '../../styles/fonts';
 import { Button } from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export function UserIdentification() {
+export function UserIdentificationData() {
     const navigation = useNavigation();
     const [isFocused, setIsFocused] = useState(false);
     const [isFilled, setIsFilled] = useState(false);
-    const [name, setName] = useState<string>();
+    const [peso, setPeso] = useState<string>();
+    const [altura, setAltura] = useState<string>();
+    const [idade, setIdade] = useState<string>();
+    const [genero, setGenero] = useState<string>();
 
     function handleInputBlur() {
         setIsFocused(false);
-        setIsFilled(!!name)
+        setIsFilled(!!peso)
     }
     function handleInputFocus() {
         setIsFocused(true);
     }
 
-    function handleInputChange(value: string) {
-        setIsFilled(!!value);
-        setName(value)
-    }
     async function handleSubimit() {
-        if (!name) {
-            return Alert.alert('Me diz como chamar você 😥')
+        console.log("click")
+        if (!peso || !altura || !idade || !genero) {
+            return Alert.alert('Infome todos os dados!')
         }
 
         try {
-            await AsyncStorage.setItem('@plantmanager:user', name);
-            navigation.navigate("UserIdentificationData", {
+            await AsyncStorage.setItem('@plantmanager:peso', peso);
+            await AsyncStorage.setItem('@plantmanager:altura', altura);
+            await AsyncStorage.setItem('@plantmanager:idade', idade);
+            await AsyncStorage.setItem('@plantmanager:genero', genero);
+            navigation.navigate("Confirmation", {
                 title: 'Protinho',
                 subtitle: 'Agora vamos começar a cuidar das suas plantinhas com muito cuidado.',
                 buttonTitle: 'Começar',
@@ -50,7 +53,7 @@ export function UserIdentification() {
                 nextScreen: 'PlantSelect'
             });
         } catch (error) {
-            Alert.alert('Não foi possível salvar o seu nome 😥')
+            Alert.alert('Não foi possível salvar seus dados')
         }
 
 
@@ -66,26 +69,52 @@ export function UserIdentification() {
                     <View style={styles.content}>
                         <View style={styles.form}>
                             <View style={styles.header}>
-                                <Text style={styles.emoji}>
-                                    {isFilled ? '😄' : '😃'}
-                                </Text>
                                 <Text style={styles.title}>
-                                    Como podemos {'\n'}
-                                    chamar você?
+                                    Agora nos diga
                                 </Text>
                             </View>
 
                             <TextInput
                                 style={[
                                     styles.input,
-                                    (isFocused || isFilled) && { borderColor: colors.green },
+                                    (isFocused || isFilled) && { borderColor: colors.green }
                                 ]}
-                                placeholder="Digite um nome"
+                                placeholder="Digite seu peso"
                                 onBlur={handleInputBlur}
                                 onFocus={handleInputFocus}
-                                onChangeText={handleInputChange}
-                            />
+                                onChangeText={(evt) => setPeso(evt)}
 
+                            />
+                            <TextInput
+                                style={[
+                                    styles.input,
+                                    (isFocused || isFilled) && { borderColor: colors.green }
+                                ]}
+                                placeholder="Digite sua altura"
+                                onBlur={handleInputBlur}
+                                onFocus={handleInputFocus}
+                                onChangeText={(evt) => setAltura(evt)}
+                            />
+                            <TextInput
+                                style={[
+                                    styles.input,
+                                    (isFocused || isFilled) && { borderColor: colors.green }
+                                ]}
+                                placeholder="Digite sua idade"
+                                onBlur={handleInputBlur}
+                                onFocus={handleInputFocus}
+                                onChangeText={(evt) => setIdade(evt)}
+                            />
+                            <TextInput
+                                style={[
+                                    styles.input,
+                                    (isFocused || isFilled) && { borderColor: colors.green }
+                                ]}
+                                placeholder="Digite seu gênero"
+                                onBlur={handleInputBlur}
+                                onFocus={handleInputFocus}
+                                onChangeText={(evt) => setGenero(evt)}
+                            />
                             <View style={styles.footer}>
                                 <Button
                                     title="Confirmar"
@@ -134,8 +163,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginTop: 50,
         padding: 10,
-        textAlign: 'center',
-
+        textAlign: 'center'
     },
     title: {
         fontSize: 24,

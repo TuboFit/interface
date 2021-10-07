@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Welcome } from '../pages/Welcome';
 import { UserIdentification } from '../pages/UserIdentification';
+import { UserIdentificationData } from '../pages/UserIdentificationData';
 import { Confirmation } from '../pages/Confirmation';
 import { PlantSave } from '../pages/PlantSave';
 import { MyPlants } from '../pages/MyPlants';
@@ -29,6 +30,10 @@ const AppRoutes: React.FC = () => (
         <stackRoutes.Screen
             name="UserIdentification"
             component={UserIdentification}
+        />
+        <stackRoutes.Screen
+            name="UserIdentificationData"
+            component={UserIdentificationData}
         />
         <stackRoutes.Screen
             name="Confirmation"

@@ -13,7 +13,7 @@ import { Feather } from '@expo/vector-icons';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
-import wateringImg from '../assets/watering.png';
+import wateringImg from '../assets/WelcomeImage.jpg';
 import { useNavigation } from '@react-navigation/core';
 
 export function Welcome() {
@@ -26,20 +26,15 @@ export function Welcome() {
             <View style={styles.wrapper}>
                 <Text style={styles.title}>
                     Gerencie {'\n'}
-                suas plantas de {'\n'}
-                forma fácil
-            </Text>
+                    seu treino de {'\n'}
+                    forma fácil
+                </Text>
 
                 <Image
                     source={wateringImg}
                     style={styles.image}
                     resizeMode="contain"
                 />
-                <Text style={styles.subtitle}>
-                    Não esqueça mais de regar suas plantas. {'\n'}
-                Nós cuidamos de lembrar você {'\n'}
-                sempre que precisar.
-            </Text>
 
                 <TouchableOpacity
                     style={styles.button}
@@ -57,6 +52,7 @@ export function Welcome() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#000"
     },
     wrapper: {
         flex: 1,
@@ -80,7 +76,7 @@ const styles = StyleSheet.create({
         fontFamily: fonts.text,
     },
     image: {
-        height: Dimensions.get('window').width * 0.7,
+        height: Dimensions.get('window').width * 1,
     },
     button: {
         backgroundColor: colors.green,
