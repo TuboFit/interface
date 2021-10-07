@@ -35,7 +35,6 @@ export function UserIdentificationData() {
     }
 
     async function handleSubimit() {
-        console.log("click")
         if (!peso || !altura || !idade || !genero) {
             return Alert.alert('Infome todos os dados!')
         }
@@ -47,7 +46,7 @@ export function UserIdentificationData() {
             await AsyncStorage.setItem('@plantmanager:genero', genero);
             navigation.navigate("Confirmation", {
                 title: 'Protinho',
-                subtitle: 'Agora vamos começar a cuidar das suas plantinhas com muito cuidado.',
+                subtitle: 'Agora vamos começar seu acompanhamento de forma rápida e prática.',
                 buttonTitle: 'Começar',
                 icon: 'smile',
                 nextScreen: 'PlantSelect'
@@ -79,7 +78,8 @@ export function UserIdentificationData() {
                                     styles.input,
                                     (isFocused || isFilled) && { borderColor: colors.green }
                                 ]}
-                                placeholder="Digite seu peso"
+                                placeholder="Digite seu peso(kg)"
+                                placeholderTextColor="#FFF"
                                 onBlur={handleInputBlur}
                                 onFocus={handleInputFocus}
                                 onChangeText={(evt) => setPeso(evt)}
@@ -90,7 +90,8 @@ export function UserIdentificationData() {
                                     styles.input,
                                     (isFocused || isFilled) && { borderColor: colors.green }
                                 ]}
-                                placeholder="Digite sua altura"
+                                placeholder="Digite sua altura(cm)"
+                                placeholderTextColor="#FFF"
                                 onBlur={handleInputBlur}
                                 onFocus={handleInputFocus}
                                 onChangeText={(evt) => setAltura(evt)}
@@ -101,6 +102,7 @@ export function UserIdentificationData() {
                                     (isFocused || isFilled) && { borderColor: colors.green }
                                 ]}
                                 placeholder="Digite sua idade"
+                                placeholderTextColor="#FFF"
                                 onBlur={handleInputBlur}
                                 onFocus={handleInputFocus}
                                 onChangeText={(evt) => setIdade(evt)}
@@ -111,6 +113,7 @@ export function UserIdentificationData() {
                                     (isFocused || isFilled) && { borderColor: colors.green }
                                 ]}
                                 placeholder="Digite seu gênero"
+                                placeholderTextColor="#FFF"
                                 onBlur={handleInputBlur}
                                 onFocus={handleInputFocus}
                                 onChangeText={(evt) => setGenero(evt)}
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
     form: {
         flex: 1,
         justifyContent: 'center',
-        paddingHorizontal: 54,
+        paddingHorizontal: 52,
         alignItems: 'center',
         width: '100%'
     },
@@ -163,7 +166,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginTop: 50,
         padding: 10,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     title: {
         fontSize: 24,
