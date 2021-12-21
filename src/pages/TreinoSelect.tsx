@@ -20,7 +20,7 @@ export function TreinoSelect() {
     function handleDaySelected(day: string) {
         setDaySelected(day);
 
-        if (day === ' ') {
+        if (day === '') {
             return setFilteredTreinos(treinos)
         }
         const filtered = treinos.filter(treino => treino.dia.includes(day))
@@ -37,10 +37,15 @@ export function TreinoSelect() {
         setLoading(false)
     }
 
+    function handleMoveOnTreino(treino: TreinoProps) {
+        navigation.navigate("TreinoSave" as never, { treino } as never);
+    }
 
     useEffect(() => {
         fetchTreinos();
     }, []);
+
+    if (loading) return <Load />
 
     return (
         <View style={styles.container}>
@@ -56,8 +61,8 @@ export function TreinoSelect() {
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
                         <EnviromentButton
-                            title={item.grupMuscular}
-                            onPress={() => { }}
+                            title={item.dia}
+                            onPress={() => handleDaySelected(item.dia)}
                         />
                     )}
                     horizontal
@@ -73,7 +78,7 @@ export function TreinoSelect() {
                     renderItem={({ item }) => (
                         <PlantCardPrimary
                             data={item}
-                            onPress={() => { }}
+                            onPress={() => handleMoveOnTreino(item)}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
@@ -115,11 +120,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingBottom: 5,
         marginLeft: 32,
-        marginVertical: 32
+        marginVertical: 32,
     },
     plants: {
         flex: 1,
         paddingHorizontal: 32,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 })

@@ -2,13 +2,13 @@ import React from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-// import loadAnimation from '../assets/load.json';
+import loadAnimation from '../assets/load.json';
 
 export function Load() {
     return (
         <View style={styles.container}>
             <LottieView
-                source={""}
+                source={loadAnimation}
                 autoPlay
                 loop
                 style={styles.animation}
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: "#000"
     },
     animation: {
         backgroundColor: 'transparent',

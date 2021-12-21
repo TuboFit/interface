@@ -3,6 +3,7 @@ import React from 'react';
 import { Welcome } from '../pages/Welcome';
 import { UserIdentification } from '../pages/UserIdentification';
 import { Confirmation } from '../pages/Confirmation';
+import { TreinoSave } from '../pages/TreinoSave';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import colors from '../../styles/colors';
@@ -39,6 +40,12 @@ const AppRoutes: React.FC = () => (
             name="MyInformation"
             component={AuthRoutes}
         />
+
+        <stackRoutes.Screen
+            name="TreinoSave"
+            component={TreinoSave}
+        />
+
     </stackRoutes.Navigator>
 )
 

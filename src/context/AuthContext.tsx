@@ -24,9 +24,11 @@ const AuthProvider: React.FC = ({ children }) => {
                 email,
                 password
             })
-            const { token } = response.data;
+            const { token, useReturns } = response.data;
             setToken(token)
             await AsyncStorage.setItem('@turbofit:token', token);
+            await AsyncStorage.setItem('@turbofit:aluno', useReturns.dadosId);
+            await AsyncStorage.setItem('@turbofit:userId', useReturns.usuarioId);
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         } catch (e) {
             console.log(e)

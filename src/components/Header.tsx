@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { AntDesign } from "@expo/vector-icons"
 
-import userImg from '../assets/perfil.png';
+import userImg from '../assets/user.png';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -25,7 +25,7 @@ export function Header() {
                 <Text style={styles.greeting}>Olá,</Text>
                 <Text style={styles.username}>{username || "Usuario"}</Text>
             </View>
-            <Image source={userImg ? userImg : AntDesign} style={styles.image} />
+            {userImg ? <Image source={userImg} style={styles.image} /> : <AntDesign size={20} color={"#FFF"} />}
         </View>
     )
 }

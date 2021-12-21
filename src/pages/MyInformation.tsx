@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { Alert, Animated, FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import colors from '../../styles/colors';
 import { Header } from '../components/Header';
 
@@ -10,11 +10,51 @@ import { pt } from 'date-fns/locale';
 import fonts from '../../styles/fonts';
 import { PlantCardSecondary } from '../components/PlantCardSecondary';
 import { Load } from '../components/Load';
+import api from '../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RectButton } from 'react-native-gesture-handler';
+import { Feather } from '@expo/vector-icons';
+
+export interface AlunoProps {
+    id?: string;
+    imc: number;
+    tmb: number;
+    idade: number;
+    peso: number;
+    altura: number;
+    obs?: string;
+}
 
 export function MyInformation() {
 
     const [loading, setLoading] = useState(true);
-    const [nextWaterd, setNextWaterd] = useState<string>();
+    const [aluno, setAluno] = useState<AlunoProps>();
+    const [nextWaterd, setNextWaterd] = useState<number | undefined>();
+
+
+    async function handleGetDataAluno() {
+        const userId = await AsyncStorage.getItem('@turbofit:userId');
+        const response = await api.get(`usuarios/${userId}`)
+            .then(() => setLoading(false))
+            .catch(e => e)
+            .finally(() => setLoading(false))
+        if (response) {
+            setAluno(response)
+        }
+    }
+
+    function handleWaltering() {
+        if (aluno) {
+            const water = aluno?.peso * 35
+            setNextWaterd(water)
+        }
+    }
+
+    useEffect(() => {
+        handleGetDataAluno()
+    }, [])
+
+    if (loading) return <Load />
 
     return (
         <View style={styles.container}>
@@ -25,24 +65,20 @@ export function MyInformation() {
                     style={styles.spotlightImage}
                 />
                 <Text style={styles.spotlightText}>
-                    {nextWaterd}
+                    {nextWaterd ? nextWaterd : "Beba bastante agua"}
                 </Text>
             </View>
             <View style={styles.plants}>
                 <Text style={styles.plantsTitle}>
+                    Dados:
                 </Text>
-                {/* <FlatList
-                    data={myPlants}
-                    keyExtractor={(item) => String(item.id)}
-                    renderItem={({ item }) => (
-                        <PlantCardSecondary
-                            data={item}
-                            handleRemove={() => { handleRemove(item) }}
-                        />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ flex: 1 }}
-                /> */}
+                <Animated.View>
+                    <View style={styles.spotlight}>
+                        <Text style={styles.spotlightText}>
+                            {aluno?.altura}
+                        </Text>
+                    </View>
+                </Animated.View>
             </View>
         </View>
     )

@@ -8,16 +8,18 @@ import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
 
-interface PlantProps extends RectButtonProps {
+interface AlunoProps extends RectButtonProps {
     data: {
-        name: string,
-        photo: string,
-        hour: string
+        imc: number;
+        tmb: number;
+        idade: number;
+        peso: number;
+        altura: number;
     }
-    handleRemove: () => void;
 }
 
-export function PlantCardSecondary({ data, handleRemove, ...rest }: PlantProps) {
+export function PlantCardSecondary({ data, ...rest }: AlunoProps) {
+    console.log(data)
     return (
         <Swipeable
             overshootRight={false}
@@ -26,7 +28,7 @@ export function PlantCardSecondary({ data, handleRemove, ...rest }: PlantProps) 
                     <View>
                         <RectButton
                             style={styles.buttonRemove}
-                            onPress={handleRemove}
+                            onPress={() => { }}
                         >
                             <Feather name="trash" size={32} color={colors.white} />
 
@@ -39,21 +41,16 @@ export function PlantCardSecondary({ data, handleRemove, ...rest }: PlantProps) 
                 style={styles.container}
                 {...rest}
             >
-                <SvgFromUri
-                    uri={data.photo}
-                    width={50}
-                    height={50}
-                />
 
                 <Text style={styles.title}>
-                    {data.name}
+                    {data.imc}
                 </Text>
                 <View style={styles.details}>
                     <Text style={styles.timeLabel}>
                         Regar às:
                     </Text>
                     <Text style={styles.time}>
-                        {data.hour}
+                        {data}
                     </Text>
                 </View>
             </RectButton >

@@ -24,7 +24,7 @@ export function EnviromentButton({ title, active = false, ...rest }: EnviromentB
                     active && styles.textActive
                 ]}
             >
-                {title}
+                {title.slice(0, 3)}
             </Text>
         </RectButton>
     )

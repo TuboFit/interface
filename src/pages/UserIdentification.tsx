@@ -17,10 +17,12 @@ import fonts from '../../styles/fonts';
 import { Button } from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAuth } from '../context/AuthContext';
+import { Load } from '../components/Load';
 
 export function UserIdentification() {
     const navigation = useNavigation();
     const { signIn, token } = useAuth()
+    const [loading, setLoading] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [isFilled, setIsFilled] = useState(false);
     const [email, setEmail] = useState<string>();
@@ -40,15 +42,14 @@ export function UserIdentification() {
         if (!email || !password) {
             return Alert.alert('Digite o email e a senha 😥')
         }
-
+        setLoading(true)
         try {
-            await signIn({ email, password })
-
-            console.log('logado')
-            navigation.navigate("TreinoSelect" as never);
-            // await AsyncStorage.setItem('@turbofit:token', token);
-            // await AsyncStorage.setItem('@turbofit:id', data);
-
+            await signIn({ email, password }).then(() => {
+                setLoading(false)
+                navigation.navigate("TreinoSelect" as never);
+            }).catch(e => {
+                setLoading(false)
+            }).finally(() => setLoading(false))
 
         } catch (error) {
             console.log('error', error, 'retornou')
@@ -57,7 +58,7 @@ export function UserIdentification() {
 
 
     }
-
+    if (loading) return <Load />
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView
