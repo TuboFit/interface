@@ -1,7 +1,7 @@
 export default {
-  green: '#008037',
-  green_dark: '#2B7A4B',
-  green_light: '#DAF2E4',
+  orange: '#FA5B3B',
+  orange_dark: '#B32400',
+  orange_light: '#FFCD1E',
 
   heading: '#FFF',
   body_dark: '#FFF',
@@ -16,4 +16,6 @@ export default {
   blue_light: '#EBF6FF',
 
   red: '#E83F5B',
+  red_dark: '#E83F5B',
+  red_ligth: "#E83F5B"
 };

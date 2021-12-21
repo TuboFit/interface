@@ -6,18 +6,16 @@ import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
 
-interface PlantProps extends RectButtonProps {
+interface TreinoProps extends RectButtonProps {
     data: {
-        name: string,
-        photo: string,
+        grupMuscular: string,
     }
 }
 
-export function PlantCardPrimary({ data, ...rest }: PlantProps) {
+export function PlantCardPrimary({ data, ...rest }: TreinoProps) {
     return (
         <RectButton {...rest} style={styles.container}>
-            <SvgFromUri uri={data.photo} width={70} height={70} />
-            <Text style={styles.text}>{data.name}</Text>
+            <Text style={styles.text}>{data.grupMuscular}</Text>
         </RectButton >
     )
 }
@@ -26,14 +24,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         maxWidth: '45%',
-        backgroundColor: colors.shape,
+        backgroundColor: colors.orange,
         borderRadius: 20,
         paddingVertical: 10,
         alignItems: 'center',
         margin: 10,
     },
     text: {
-        color: colors.green_dark,
+        color: colors.white,
         fontFamily: fonts.heading,
         marginVertical: 16
     }

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../../styles/colors';
-import { PlantSelect } from '../pages/PlantSelect';
+import { TreinoSelect } from '../pages/TreinoSelect';
 import { MaterialIcons } from '@expo/vector-icons';
-import { MyPlants } from '../pages/MyPlants';
+import { MyInformation } from '../pages/MyInformation';
 import { Platform } from 'react-native';
 
 const AppTab = createBottomTabNavigator();
@@ -14,18 +14,17 @@ const AuthRoutes = () => {
     return (
         <AppTab.Navigator
             tabBarOptions={{
-                activeTintColor: colors.green,
-                inactiveTintColor: colors.heading,
+                activeTintColor: colors.orange,
+                inactiveTintColor: "#000",
                 labelPosition: 'beside-icon',
                 style: {
                     paddingVertical: Platform.OS === 'ios' ? 20 : 0,
-                    height: 88,
-
+                    height: 68,
                 }
             }}>
             <AppTab.Screen
-                name="Nova Planta"
-                component={PlantSelect}
+                name="Meu Treino"
+                component={TreinoSelect}
                 options={{
                     tabBarIcon: (({ size, color }) => (
                         <MaterialIcons
@@ -38,8 +37,8 @@ const AuthRoutes = () => {
             />
 
             <AppTab.Screen
-                name="Minhas Plantas"
-                component={MyPlants}
+                name="Minhas Informações"
+                component={MyInformation}
                 options={{
                     tabBarIcon: (({ size, color }) => (
                         <MaterialIcons

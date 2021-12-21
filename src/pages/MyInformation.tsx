@@ -4,62 +4,18 @@ import colors from '../../styles/colors';
 import { Header } from '../components/Header';
 
 import waterdrop from '../assets/waterdrop.png'
-import { PlantProps, loadPlant, removePlant } from '../libs/storage';
+import { TreinoProps } from '../libs/storage';
 import { formatDistance } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import fonts from '../../styles/fonts';
 import { PlantCardSecondary } from '../components/PlantCardSecondary';
 import { Load } from '../components/Load';
 
-export function MyPlants() {
+export function MyInformation() {
 
-    const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
     const [loading, setLoading] = useState(true);
     const [nextWaterd, setNextWaterd] = useState<string>();
 
-    function handleRemove(plant: PlantProps) {
-        Alert.alert('Remover', `Deseja remover a ${plant.name}?🤔`, [
-            {
-                text: 'Não🙏',
-                style: 'cancel'
-            },
-            {
-                text: 'Sim😥',
-                onPress: async () => {
-                    try {
-                        await removePlant(plant.id)
-                        setMyPlants((oldData) => (
-                            oldData.filter(item => item.id !== plant.id)
-                        ));
-                    } catch (error) {
-                        Alert.alert('Não foi possível remover! 😴')
-                    }
-                }
-            }
-        ])
-    }
-
-    useEffect(() => {
-        async function loadStorageData() {
-            const plantStoraged = await loadPlant();
-            const nextTime = formatDistance(
-                new Date(plantStoraged[0].dateTimeNotification).getTime(),
-                new Date().getTime(),
-                { locale: pt }
-            )
-
-            setNextWaterd(
-                `Regue sua ${plantStoraged[0].name} daqui a ${nextTime}`
-            )
-
-            setMyPlants(plantStoraged);
-            setLoading(false)
-        }
-
-        loadStorageData();
-    })
-    if (loading)
-        return <Load />
     return (
         <View style={styles.container}>
             <Header />
@@ -74,9 +30,8 @@ export function MyPlants() {
             </View>
             <View style={styles.plants}>
                 <Text style={styles.plantsTitle}>
-                    Próximas regadas
                 </Text>
-                <FlatList
+                {/* <FlatList
                     data={myPlants}
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
@@ -87,10 +42,11 @@ export function MyPlants() {
                     )}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ flex: 1 }}
-                />
+                /> */}
             </View>
         </View>
     )
+
 }
 
 const styles = StyleSheet.create({

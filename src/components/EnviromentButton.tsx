@@ -32,7 +32,7 @@ export function EnviromentButton({ title, active = false, ...rest }: EnviromentB
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.shape,
+        backgroundColor: colors.orange,
         height: 40,
         width: 76,
         justifyContent: 'center',
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     containerActive: {
-        backgroundColor: colors.green_light
+        backgroundColor: colors.orange_light
     },
     text: {
         color: colors.heading,
@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
     },
     textActive: {
         fontFamily: fonts.heading,
-        color: colors.green_dark,
+        color: colors.orange_dark,
     }
 })

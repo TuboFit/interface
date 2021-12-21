@@ -13,13 +13,13 @@ import { Feather } from '@expo/vector-icons';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
-import wateringImg from '../assets/WelcomeImage.jpg';
+import wateringImg from "../assets/WelcomeImage.jpg";
 import { useNavigation } from '@react-navigation/core';
 
 export function Welcome() {
     const navigation = useNavigation();
     function handleStart() {
-        navigation.navigate("UserIdentification");
+        navigation.navigate("UserIdentification" as never);
     }
     return (
         <SafeAreaView style={styles.container}>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').width * 1,
     },
     button: {
-        backgroundColor: colors.green,
+        backgroundColor: colors.orange,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 16,

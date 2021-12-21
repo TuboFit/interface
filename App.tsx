@@ -4,14 +4,16 @@ import * as Notifications from 'expo-notifications';
 import {
   useFonts,
   Jost_400Regular,
-  Jost_600SemiBold,
+  Jost_600SemiBold
 } from '@expo-google-fonts/jost';
 
 import Routes from './src/routes';
-import { PlantProps } from './src/libs/storage';
+import { TreinoProps } from './src/libs/storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { AuthProvider } from './src/context/AuthContext';
 
 export default function App() {
-  const [fonstLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     Jost_400Regular,
     Jost_600SemiBold
   });
@@ -19,7 +21,7 @@ export default function App() {
   useEffect(() => {
     const subscrition = Notifications.addNotificationReceivedListener(
       async notifications => {
-        const data = notifications.request.content.data.plant as PlantProps;
+        const data = notifications.request.content.data.plant as TreinoProps;
         console.log(data)
       })
     return () => subscrition.remove();
@@ -31,13 +33,17 @@ export default function App() {
     // }
     // notications();
   })
-  if (!fonstLoaded) {
+  if (!fontsLoaded) {
     return (
       <AppLoading />
     )
   }
   return (
-    <Routes />
-  );
+    <NavigationContainer independent={true} >
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+    </NavigationContainer>
+  )
 }
 

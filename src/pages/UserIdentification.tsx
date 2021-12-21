@@ -16,41 +16,43 @@ import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 import { Button } from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useAuth } from '../context/AuthContext';
 
 export function UserIdentification() {
     const navigation = useNavigation();
+    const { signIn, token } = useAuth()
     const [isFocused, setIsFocused] = useState(false);
     const [isFilled, setIsFilled] = useState(false);
-    const [name, setName] = useState<string>();
+    const [email, setEmail] = useState<string>();
+    const [password, setPassword] = useState<string>();
 
     function handleInputBlur() {
         setIsFocused(false);
-        setIsFilled(!!name)
+        setIsFilled(!!email)
+        setIsFilled(!!password)
     }
     function handleInputFocus() {
+
         setIsFocused(true);
     }
 
-    function handleInputChange(value: string) {
-        setIsFilled(!!value);
-        setName(value)
-    }
     async function handleSubimit() {
-        if (!name) {
-            return Alert.alert('Me diz como chamar você 😥')
+        if (!email || !password) {
+            return Alert.alert('Digite o email e a senha 😥')
         }
 
         try {
-            await AsyncStorage.setItem('@plantmanager:user', name);
-            navigation.navigate("UserIdentificationData", {
-                title: 'Protinho',
-                subtitle: 'Agora vamos começar a cuidar das suas plantinhas com muito cuidado.',
-                buttonTitle: 'Começar',
-                icon: 'smile',
-                nextScreen: 'PlantSelect'
-            });
+            await signIn({ email, password })
+
+            console.log('logado')
+            navigation.navigate("TreinoSelect" as never);
+            // await AsyncStorage.setItem('@turbofit:token', token);
+            // await AsyncStorage.setItem('@turbofit:id', data);
+
+
         } catch (error) {
-            Alert.alert('Não foi possível salvar o seu nome 😥')
+            console.log('error', error, 'retornou')
+            Alert.alert('Não foi possível entrar 😥')
         }
 
 
@@ -70,21 +72,37 @@ export function UserIdentification() {
                                     {isFilled ? '😄' : '😃'}
                                 </Text>
                                 <Text style={styles.title}>
-                                    Como podemos {'\n'}
-                                    chamar você?
+                                    Informe
                                 </Text>
                             </View>
 
                             <TextInput
                                 style={[
                                     styles.input,
-                                    (isFocused || isFilled) && { borderColor: colors.green },
+                                    (isFocused && isFilled) && { borderColor: colors.orange },
                                 ]}
-                                placeholder="Digite um nome"
+                                placeholder="Digite o email"
+                                keyboardType='email-address'
+                                textContentType='emailAddress'
                                 placeholderTextColor="#FFF"
                                 onBlur={handleInputBlur}
                                 onFocus={handleInputFocus}
-                                onChangeText={handleInputChange}
+                                onChangeText={(e) => setEmail(e)}
+                                autoCapitalize='none'
+
+                            />
+                            <TextInput
+                                style={[
+                                    styles.input,
+                                    (isFocused && isFilled) && { borderColor: colors.orange },
+                                ]}
+                                placeholder="Digite a senha"
+                                textContentType='password'
+                                placeholderTextColor="#FFF"
+                                onBlur={handleInputBlur}
+                                onFocus={handleInputFocus}
+                                onChangeText={(e) => setPassword(e)}
+                                secureTextEntry={true}
                             />
 
                             <View style={styles.footer}>
@@ -147,8 +165,10 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     footer: {
-        width: '100%',
+        width: '40%',
         marginTop: 40,
-        paddingHorizontal: 20
+        borderRadius: 8,
+        paddingHorizontal: 20,
+        backgroundColor: colors.orange
     },
 })

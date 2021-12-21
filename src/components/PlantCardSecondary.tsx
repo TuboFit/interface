@@ -51,7 +51,7 @@ export function PlantCardSecondary({ data, handleRemove, ...rest }: PlantProps) 
                 <View style={styles.details}>
                     <Text style={styles.timeLabel}>
                         Regar às:
-                </Text>
+                    </Text>
                     <Text style={styles.time}>
                         {data.hour}
                     </Text>
