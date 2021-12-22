@@ -13,7 +13,7 @@ export function Header() {
 
     useEffect(() => {
         async function loadStorgeUserName() {
-            const user = await AsyncStorage.getItem('@turbofit:user')
+            const user = await AsyncStorage.getItem('@turbofit:username')
             setUserName(user || '');
         }
         loadStorgeUserName();
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         fontFamily: fonts.text
     },
     username: {
-        fontSize: 32,
+        fontSize: 24,
         fontFamily: fonts.heading,
         color: colors.heading,
         lineHeight: 40

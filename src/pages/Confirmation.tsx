@@ -33,9 +33,6 @@ export function Confirmation() {
         nextScreen,
     } = routes.params as Params;
 
-    function handleMoveOn() {
-        navigation.navigate(nextScreen);
-    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -50,7 +47,7 @@ export function Confirmation() {
                 <View style={styles.footer}>
                     <Button
                         title={buttonTitle}
-                        onPress={handleMoveOn}
+                        onPress={() => { }}
                     />
                 </View>
             </View>

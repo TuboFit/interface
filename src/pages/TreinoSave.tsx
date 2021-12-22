@@ -34,7 +34,7 @@ export function TreinoSave() {
 
     return (
         <ScrollView
-            showsVerticalScrollIndicator={true}
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.container}
         >
             <View style={styles.container}>

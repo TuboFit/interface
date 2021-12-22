@@ -9,6 +9,7 @@ import { Load } from '../components/Load';
 import api from '../services/api';
 import { useNavigation } from '@react-navigation/core';
 import { TreinoProps } from '../libs/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function TreinoSelect() {
     const [treinos, setTreinos] = useState<TreinoProps[]>([]);
@@ -20,7 +21,7 @@ export function TreinoSelect() {
     function handleDaySelected(day: string) {
         setDaySelected(day);
 
-        if (day === '') {
+        if (!day) {
             return setFilteredTreinos(treinos)
         }
         const filtered = treinos.filter(treino => treino.dia.includes(day))
@@ -29,11 +30,14 @@ export function TreinoSelect() {
     }
 
     async function fetchTreinos() {
-        const { data } = await api.get(`/treinos`);
+        const alunoId = await AsyncStorage.getItem("@turbofit:aluno")
+        const { data } = await api.get(`/alunos/${alunoId}`);
         if (!data) {
-            return setLoading(true)
+            setLoading(true)
+            return navigation.navigate("UserIdentification" as never);
         }
-        setTreinos(data)
+        await AsyncStorage.setItem("@turbofit:username", data.dados?.nome)
+        setTreinos(data.treinos)
         setLoading(false)
     }
 
@@ -103,7 +107,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30
     },
     title: {
-        fontSize: 17,
+        fontSize: 22,
         color: colors.heading,
         fontFamily: fonts.heading,
         lineHeight: 20,

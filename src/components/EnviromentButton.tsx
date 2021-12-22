@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     },
     text: {
         color: colors.heading,
-        fontFamily: fonts.text,
+        fontFamily: fonts.heading,
+        fontSize: 18
 
     },
     textActive: {

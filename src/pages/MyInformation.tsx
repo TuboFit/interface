@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Animated, FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { Alert, Animated, FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import colors from '../../styles/colors';
 import { Header } from '../components/Header';
 
@@ -12,8 +12,7 @@ import { PlantCardSecondary } from '../components/PlantCardSecondary';
 import { Load } from '../components/Load';
 import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { RectButton } from 'react-native-gesture-handler';
-import { Feather } from '@expo/vector-icons';
+import { Button } from '../components/Button';
 
 export interface AlunoProps {
     id?: string;
@@ -33,25 +32,18 @@ export function MyInformation() {
 
 
     async function handleGetDataAluno() {
-        const userId = await AsyncStorage.getItem('@turbofit:userId');
-        const response = await api.get(`usuarios/${userId}`)
-            .then(() => setLoading(false))
-            .catch(e => e)
-            .finally(() => setLoading(false))
+        const alunoId = await AsyncStorage.getItem('@turbofit:aluno');
+        const response = await api.get(`alunos/${alunoId}`)
         if (response) {
-            setAluno(response)
+            setAluno(response.data)
+            setLoading(false)
         }
-    }
 
-    function handleWaltering() {
-        if (aluno) {
-            const water = aluno?.peso * 35
-            setNextWaterd(water)
-        }
     }
 
     useEffect(() => {
         handleGetDataAluno()
+        aluno ? setNextWaterd(aluno.peso * 40) : 0
     }, [])
 
     if (loading) return <Load />
@@ -65,22 +57,57 @@ export function MyInformation() {
                     style={styles.spotlightImage}
                 />
                 <Text style={styles.spotlightText}>
-                    {nextWaterd ? nextWaterd : "Beba bastante agua"}
+                    {nextWaterd ? `Você deve beber pelo menos ${nextWaterd} ml de água por dia` : "Beba bastante agua"}
                 </Text>
             </View>
             <View style={styles.plants}>
                 <Text style={styles.plantsTitle}>
-                    Dados:
+                    Dados
                 </Text>
-                <Animated.View>
-                    <View style={styles.spotlight}>
-                        <Text style={styles.spotlightText}>
-                            {aluno?.altura}
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}
+                >
+                    <View style={styles.spotlightUserInformation}>
+                        <Text style={styles.spotlightTitle}>
+                            {'Altura:'}
+                        </Text>
+                        <Text style={styles.spotlightTextUserIformation}>
+                            {aluno ? `${(aluno?.altura / 100)}m ` : 'Sem dados de altura'}
                         </Text>
                     </View>
-                </Animated.View>
+                    <View style={styles.spotlightUserInformation}>
+                        <Text style={styles.spotlightTitle}>
+                            {'Peso: '}
+                        </Text>
+                        <Text style={styles.spotlightTextUserIformation}>
+                            {aluno ? `${aluno?.peso} kg ` : 'Sem dados de peso'}
+                        </Text>
+                    </View>
+                    <View style={styles.spotlightUserInformation}>
+                        <Text style={styles.spotlightTitle}>
+                            {'IMC:  '}
+                        </Text>
+                        <Text style={styles.spotlightTextUserIformation}>
+                            {aluno ? `${aluno?.imc.toFixed(1)} ` : 'Sem dados de peso'}
+                        </Text>
+                    </View>
+                    <View style={styles.spotlightUserInformation}>
+                        <Text style={styles.spotlightTitle}>
+                            {'TMB: '}
+                        </Text>
+                        <Text style={styles.spotlightTextUserIformation}>
+                            {aluno ? `${aluno?.tmb.toFixed(1)} ` : 'Sem dados de peso'}
+                        </Text>
+                    </View>
+
+                    <View style={{ marginTop: 40 }}>
+                        <Button title='Editar dados' />
+                    </View>
+
+                </ScrollView>
             </View>
-        </View>
+        </View >
     )
 
 }
@@ -99,7 +126,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blue_light,
         paddingHorizontal: 20,
         borderRadius: 20,
-        height: 110,
+        height: 90,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -110,11 +137,40 @@ const styles = StyleSheet.create({
         height: 60,
     },
 
+    spotlightUserInformation: {
+        flex: 1,
+        backgroundColor: '#161618',
+        borderRadius: 20,
+        height: 60,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 20,
+        marginTop: 10
+    },
+
+    spotlightTitle: {
+        fontSize: 24,
+        fontFamily: fonts.heading,
+        color: colors.white,
+        marginRight: '45%',
+    },
+
     spotlightText: {
         flex: 1,
         color: colors.blue,
         paddingHorizontal: 20,
-        textAlign: 'justify'
+        textAlign: 'justify',
+        fontFamily: fonts.heading,
+    },
+
+    spotlightTextUserIformation: {
+        flex: 1,
+        color: colors.white,
+        paddingHorizontal: 20,
+        textAlign: 'justify',
+        fontFamily: fonts.heading,
+        fontSize: 18
     },
 
     plants: {
