@@ -46,6 +46,11 @@ const AppRoutes: React.FC = () => (
             component={TreinoSave}
         />
 
+        <stackRoutes.Screen
+            name="Confirmation"
+            component={Confirmation}
+        />
+
     </stackRoutes.Navigator>
 )
 

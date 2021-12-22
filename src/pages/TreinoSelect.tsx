@@ -21,7 +21,7 @@ export function TreinoSelect() {
     function handleDaySelected(day: string) {
         setDaySelected(day);
 
-        if (!day) {
+        if (!daySelected) {
             return setFilteredTreinos(treinos)
         }
         const filtered = treinos.filter(treino => treino.dia.includes(day))

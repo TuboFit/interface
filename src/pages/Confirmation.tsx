@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import {
+    Alert,
     SafeAreaView,
     StyleSheet,
     Text,
@@ -9,47 +10,102 @@ import {
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 import { Button } from '../components/Button';
+import { TextInput } from 'react-native-gesture-handler';
+import api from '../services/api';
+import { Load } from '../components/Load';
 
 interface Params {
-    title: string;
-    subtitle: string;
-    buttonTitle: string;
-    icon: 'smile' | 'hug',
-    nextScreen: string,
+    aluno: {
+        id?: string;
+        imc: number;
+        tmb: number;
+        idade: number;
+        peso: number;
+        altura: number;
+        obs?: string;
+        dados: Object;
+        usuario: Object;
+    }
 }
-const emojis = {
-    hug: '🤗',
-    smile: '😄',
-}
+
 export function Confirmation() {
     const navigation = useNavigation()
     const routes = useRoute();
-
     const {
-        title,
-        subtitle,
-        buttonTitle,
-        icon,
-        nextScreen,
+        aluno,
+        ...rest
     } = routes.params as Params;
 
+    const [loading, setLoading] = useState(false)
+    const [idade, setIdade] = useState<number>(aluno.idade)
+    const [peso, setPeso] = useState<number>(aluno.peso)
+    const [altura, setAltura] = useState<number>(aluno.altura)
+    const [obs, setObs] = useState<string>('')
+
+    async function handleEditDados() {
+        setLoading(true)
+        console.log(aluno.dados, aluno.usuario)
+        await api.patch(`/alunos/${aluno.id}`, {
+            idade,
+            peso,
+            altura,
+            obs,
+            dados: aluno.dados,
+            usuario: aluno.usuario
+        })
+            .then(() => {
+                setLoading(false)
+                navigation.goBack()
+            })
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false))
+    }
+
+    if (loading) return <Load />
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <Text style={styles.emoji}>
-                    {emojis[icon]}
-                </Text>
-                <Text style={styles.title}>{title}</Text>
-                <Text style={styles.subtitle}>
-                    {subtitle}
-                </Text>
-                <View style={styles.footer}>
-                    <Button
-                        title={buttonTitle}
-                        onPress={() => { }}
-                    />
-                </View>
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Digite sua idade"
+                    keyboardType='number-pad'
+                    placeholderTextColor="#FFF"
+                    onChangeText={(e) => setIdade(e as unknown as number)}
+                    autoCapitalize='none'
+                />
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Digite seu peso"
+                    keyboardType='number-pad'
+                    placeholderTextColor="#FFF"
+                    onChangeText={(e) => setPeso(e as unknown as number)}
+                    autoCapitalize='none'
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Digite sua altura (cm)"
+                    keyboardType='number-pad'
+                    placeholderTextColor="#FFF"
+                    onChangeText={(e) => setAltura(e as unknown as number)}
+                    autoCapitalize='none'
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Observações"
+                    keyboardType='web-search'
+                    placeholderTextColor="#FFF"
+                    onChangeText={(e) => setObs(e)}
+                    autoCapitalize='none'
+                />
+            </View>
+            <View style={styles.footer}>
+                <Button
+                    title='Editar dados'
+                    onPress={handleEditDados}
+                />
             </View>
         </SafeAreaView>
     )
@@ -66,14 +122,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
+        width: '80%',
         padding: 30
     },
-    header: {
-        alignItems: 'center',
-    },
-    emoji: {
-        fontSize: 78,
+    input: {
+        borderBottomWidth: 1,
+        borderColor: colors.orange,
+        color: colors.heading,
+        width: '100%',
+        fontSize: 18,
+        marginTop: 50,
+        padding: 10,
+        textAlign: 'center',
     },
     title: {
         fontSize: 22,
@@ -93,6 +153,7 @@ const styles = StyleSheet.create({
     footer: {
         width: '100%',
         paddingHorizontal: 50,
-        marginTop: 20
+        marginVertical: 20
+
     },
 })

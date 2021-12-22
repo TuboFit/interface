@@ -13,6 +13,7 @@ import { Load } from '../components/Load';
 import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from '../components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 export interface AlunoProps {
     id?: string;
@@ -29,6 +30,7 @@ export function MyInformation() {
     const [loading, setLoading] = useState(true);
     const [aluno, setAluno] = useState<AlunoProps>();
     const [nextWaterd, setNextWaterd] = useState<number | undefined>();
+    const navigation = useNavigation()
 
 
     async function handleGetDataAluno() {
@@ -36,14 +38,18 @@ export function MyInformation() {
         const response = await api.get(`alunos/${alunoId}`)
         if (response) {
             setAluno(response.data)
+            aluno ? setNextWaterd(aluno.peso * 40) : null
             setLoading(false)
         }
 
     }
 
+    function handleNavigateEditDados() {
+        navigation.navigate('Confirmation' as never, { aluno } as never)
+    }
+
     useEffect(() => {
         handleGetDataAluno()
-        aluno ? setNextWaterd(aluno.peso * 40) : 0
     }, [])
 
     if (loading) return <Load />
@@ -102,7 +108,10 @@ export function MyInformation() {
                     </View>
 
                     <View style={{ marginTop: 40 }}>
-                        <Button title='Editar dados' />
+                        <Button
+                            title='Editar dados'
+                            onPress={handleNavigateEditDados}
+                        />
                     </View>
 
                 </ScrollView>
