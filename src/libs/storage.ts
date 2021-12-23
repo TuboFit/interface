@@ -7,7 +7,7 @@ export interface TreinoProps {
     id?: string;
     crefProfessor: string;
     grupMuscular: string;
-    dia: string;
+    nome: string;
     nivel: string;
     exercicios: Exercicio[];
 }
@@ -15,6 +15,7 @@ export interface TreinoProps {
 export interface Exercicio {
     id?: string;
     nome: string;
+    dia: string;
     grupMuscular: string,
     numRepeticoes: string,
     carga: string;

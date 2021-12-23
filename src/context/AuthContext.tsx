@@ -19,6 +19,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const [token, setToken] = useState<TokenState>({} as TokenState);
 
     const signIn = useCallback(async ({ email, password }: UserData) => {
+        console.log(email, password)
         try {
             const response = await api.post('/usuarios/login', {
                 email,

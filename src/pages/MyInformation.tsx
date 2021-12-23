@@ -27,13 +27,14 @@ export interface AlunoProps {
 
 export function MyInformation() {
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [aluno, setAluno] = useState<AlunoProps>();
     const [nextWaterd, setNextWaterd] = useState<number | undefined>();
     const navigation = useNavigation()
 
 
     async function handleGetDataAluno() {
+        setLoading(true)
         const alunoId = await AsyncStorage.getItem('@turbofit:aluno');
         const response = await api.get(`alunos/${alunoId}`)
         if (response) {
@@ -41,6 +42,7 @@ export function MyInformation() {
             aluno ? setNextWaterd(aluno.peso * 40) : null
             setLoading(false)
         }
+        setLoading(false)
 
     }
 

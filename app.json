@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/logo_black.png",
         "backgroundColor": "#000000"
-      }
+      },
+      "package": "turbofit.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

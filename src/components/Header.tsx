@@ -7,6 +7,8 @@ import userImg from '../assets/user.png';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button } from './Button';
+import { RawButton } from 'react-native-gesture-handler';
 
 export function Header() {
     const [username, setUserName] = useState<string>();
@@ -26,6 +28,7 @@ export function Header() {
                 <Text style={styles.username}>{username || "Usuario"}</Text>
             </View>
             {userImg ? <Image source={userImg} style={styles.image} /> : <AntDesign size={20} color={"#FFF"} />}
+
         </View>
     )
 }

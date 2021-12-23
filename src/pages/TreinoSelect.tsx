@@ -14,19 +14,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export function TreinoSelect() {
     const [treinos, setTreinos] = useState<TreinoProps[]>([]);
     const [filteredTreinos, setFilteredTreinos] = useState<TreinoProps[]>([]);
-    const [daySelected, setDaySelected] = useState('');
+    const [grupSelected, setGrupSelected] = useState('');
     const [loading, setLoading] = useState(true);
     const navigation = useNavigation();
 
     function handleDaySelected(day: string) {
-        setDaySelected(day);
+        setGrupSelected(day);
 
-        if (!daySelected) {
+        if (!grupSelected) {
             return setFilteredTreinos(treinos)
         }
-        const filtered = treinos.filter(treino => treino.dia.includes(day))
-
-        setFilteredTreinos(filtered)
+        const filtered = treinos.filter(treino => treino.grupMuscular.includes(grupSelected))
+        console.log(filtered)
+        return setFilteredTreinos(filtered)
     }
 
     async function fetchTreinos() {
@@ -65,8 +65,8 @@ export function TreinoSelect() {
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
                         <EnviromentButton
-                            title={item.dia}
-                            onPress={() => handleDaySelected(item.dia)}
+                            title={item.grupMuscular}
+                            onPress={() => handleDaySelected(item.grupMuscular)}
                         />
                     )}
                     horizontal

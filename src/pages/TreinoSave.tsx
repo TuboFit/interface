@@ -56,8 +56,11 @@ export function TreinoSave() {
                             <Text style={styles.spotlightText}>
                                 <Text style={styles.spotlightTitle}>{item.nome}{'\n'}</Text>
                                 <Text style={styles.spotlightText}>
-                                    {'Repetições: ' + item.numRepeticoes + ' '}
-                                    {'Carga: ' + item.carga}</Text>
+                                    {'Repetições: ' + item.numRepeticoes + '       '}
+                                </Text>
+                                <Text style={styles.spotlightText}>
+                                    {'Carga: ' + item.carga}
+                                </Text>
                             </Text>
                         </View>
                     )}
@@ -74,7 +77,7 @@ export function TreinoSave() {
                     />
                 </View>
             </View>
-        </ScrollView>
+        </ScrollView >
     )
 }
 
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
     plantName: {
         textAlign: 'center',
         fontFamily: fonts.heading,
-        fontSize: 24,
+        fontSize: 30,
         color: colors.heading,
         marginTop: 15,
     },
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: fonts.text,
         color: colors.heading,
-        fontSize: 17,
+        fontSize: 24,
         marginTop: 10
     },
     controller: {
@@ -155,7 +158,8 @@ const styles = StyleSheet.create({
     },
 
     spotlight: {
-        backgroundColor: colors.blue_light,
+        flex: 2,
+        backgroundColor: "#161618",
         paddingHorizontal: 20,
         marginBottom: 10,
         borderRadius: 20,
@@ -167,15 +171,16 @@ const styles = StyleSheet.create({
 
     spotlightText: {
         flex: 1,
-        color: colors.blue,
+        color: colors.white,
         paddingHorizontal: 20,
-        textAlign: 'justify'
+        textAlign: 'justify',
+        fontSize: 16,
     },
 
     spotlightTitle: {
-        fontSize: 14,
+        fontSize: 18,
         fontFamily: fonts.heading,
-        color: colors.orange_dark,
+        color: colors.orange,
         marginVertical: 20,
     }
 

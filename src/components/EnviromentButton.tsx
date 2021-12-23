@@ -10,6 +10,7 @@ interface EnviromentButtonProps extends RectButtonProps {
 }
 
 export function EnviromentButton({ title, active = false, ...rest }: EnviromentButtonProps) {
+    console.log(title)
     return (
         <RectButton
             style={[
@@ -24,7 +25,7 @@ export function EnviromentButton({ title, active = false, ...rest }: EnviromentB
                     active && styles.textActive
                 ]}
             >
-                {title.slice(0, 3)}
+                {title}
             </Text>
         </RectButton>
     )
